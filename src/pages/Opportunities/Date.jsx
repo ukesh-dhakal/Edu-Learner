@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import moment from 'moment';
 import styled from "styled-components";
 
 const DateTimeWrapper = styled.div`
@@ -12,12 +11,21 @@ const DateTimeWrapper = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
+const formatDateTime = (date) => {
+  const options = { 
+    year: 'numeric', month: 'long', day: 'numeric', 
+    hour: 'numeric', minute: 'numeric', second: 'numeric', 
+    hour12: true 
+  };
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+};
+
 const DateTime = () => {
-  const [dateTime, setDateTime] = useState(moment().format('MMMM Do YYYY, h:mm:ss a'));
+  const [dateTime, setDateTime] = useState(formatDateTime(new Date()));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDateTime(moment().format('MMMM Do YYYY, h:mm:ss a'));
+      setDateTime(formatDateTime(new Date()));
     }, 1000);
 
     return () => clearInterval(interval);
